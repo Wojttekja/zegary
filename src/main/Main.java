@@ -1,16 +1,23 @@
+// Zadanie 3 Wojciech Mierzejek 459435
 package main;
 import zegary.Czas;
 import java.time.LocalTime;
 
 public class Main {
-    // public Czas koniecZajęć(Czas start, int[] przerwy) {
-    //   //  ...
-    // }
+    public Czas koniecZajęć(Czas start, int[] przerwy) {
+        Czas koniec = start;
+        for (int i = 0; i < przerwy.length; i++) {
+            koniec = Czas.dodaj(koniec, Czas.zMinuty(45));
+            koniec = Czas.dodaj(koniec, Czas.zMinuty(przerwy[i]));
+        }
+        koniec = Czas.dodaj(koniec, Czas.zMinuty(45));
+        return koniec;
+    }
 
     public void testy(){
         System.out.println("Testy");
         Czas time1 = new Czas(12);
-        assert time1.hour() == 12 : "Zła godzina!";
+        assert time1.hour() == 12: "Zła godzina!";
         System.out.println(time1);
         Czas time2 = new Czas(12, 30);
         assert time2.minute() == 30 : "Zła minuta!";
@@ -19,19 +26,23 @@ public class Main {
         assert time3.second() == 45 : "Zła sekunda!";
         System.out.println(time3);
         Czas now = new Czas();
-        assert now.hour() == now().getHour() && now.minute() == now().getMinute() && now.second() == now().getSecond() : "NIE DZIAŁA";
+        assert now.hour() == LocalTime.now().getHour() && now.minute() == LocalTime.now().getMinute() && now.second() == LocalTime.now().getSecond() : "NIE DZIAŁA";
         System.out.println(now);
 
         System.out.println("Czy teraz jest " + time1 + "?🤔:  " +  time1.rowna(time2));
+        assert time1.rowna(time2) == false : "Złe porównanie!";
         System.out.println("Godzina za 12 godzin: " + Czas.dodaj(time1, Czas.zGodziny(12)));
+        assert Czas.dodaj(time1, Czas.zGodziny(1)).hour() == 13 : "Złe dodawanie godzin!";
         System.out.println("12:30 pomnożona przez 17: " + Czas.pomnmoz(time1, 17));
-
+        assert Czas.pomnmoz(Czas.zMinuty(10), 5).minute() == 50 : "Złe mnożenie minut!";
         System.out.println("Czy " + time1 + " jest przed " + time2 + "?🤔:  " +  time1.przed(time2));
+        assert time1.przed(time2) == true : "Złe porównanie!";
         System.out.println(time1 + " to jest " + time1.hour() + " godzina, " + time1.minute() + " minuta, " + time1.second() + " sekunda.");
 
         System.out.println("Jeszcze robienie czasu z minuty i z sekundy:");
         System.out.println(Czas.zMinuty(30));
-        System.out.println(Czas.zSekundy(30));
+        System.out.println(Czas.zSekundy(30)+"\n\n");
+
     }
 
     public static void main(String[] args) {

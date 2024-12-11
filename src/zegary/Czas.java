@@ -1,3 +1,4 @@
+// Zadanie 3 Wojciech Mierzejek 459435
 package zegary;
 public class Czas {
 
@@ -17,13 +18,11 @@ public class Czas {
         this(hour, minute, 0);
     }
     public Czas(int hour, int minute, int second) {
-        assert hour >= 0 && minute >= 0 && second >= 0 : "Czas nie może być ujemny analfabeto!";
+        assert hour <= 24 && hour >= 0 && minute >= 0 && minute <= 60 && second >= 0 && second <= 60: "Czas nie może być ujemny analfabeto!";
 
         this.hour = hour;
         this.minute = minute;
         this.second = second;
-
-        normalize();
     }
 
     public void normalize() {
@@ -34,6 +33,7 @@ public class Czas {
         this.hour %= 24;
     }
 
+    @Override
     public String toString() {
         return hour + ":" + minute + ":" + second;
     }
@@ -66,11 +66,19 @@ public class Czas {
     }
 
     public static Czas dodaj(Czas time1, Czas time2) {
-        return new Czas(time1.hour + time2.hour, time1.minute + time2.minute, time1.second + time2.second);
+        time1.hour += time2.hour;
+        time1.minute += time2.minute;
+        time1.second += time2.second;
+        time1.normalize();
+        return time1;
     }
 
     public static Czas pomnmoz(Czas time, int factor) {
-        return new Czas(time.hour * factor, time.minute * factor, time.second * factor);
+        time.hour *= factor;
+        time.minute *= factor;
+        time.second *= factor;
+        time.normalize();
+        return time;
     }
 
     public static Czas zGodziny(int hour) {

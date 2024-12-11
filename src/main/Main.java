@@ -1,4 +1,3 @@
-// Zadanie 3 Wojciech Mierzejek 459435
 package main;
 import zegary.Czas;
 import java.time.LocalTime;
